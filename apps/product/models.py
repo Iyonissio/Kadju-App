@@ -1,9 +1,7 @@
 from io import BytesIO
 from PIL import Image
-
 from django.core.files import File
 from django.db import models
-
 from apps.vendor.models import Vendor
 
 class Category(models.Model):
@@ -55,7 +53,6 @@ class Product(models.Model):
         img.save(thumb_io, 'JPEG', quality=85)
 
         thumbnail = File(thumb_io, name=image.name)
-
         return thumbnail
 
 class ProductImage(models.Model):
