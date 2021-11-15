@@ -29,6 +29,14 @@
         
             <div class="navbar-menu" id="main-navbar">
                 <div class="navbar-start">
+                    {% for category in menu_categories %}
+                        <a href="{% url 'category' category.slug %}" class="navbar-item">{{ category.title }}</a>
+                    {% endfor %}
+
+                    <a href="{% url 'contact' %}" class="navbar-item">Contactos</a>
+                </div>
+
+                <div class="navbar-end">
                     <div class="navbar-item">
                         <form method="get" action="{% url 'search' %}">
                             <div class="field has-addons">
@@ -39,16 +47,8 @@
                                     <button class="button is-dark is-uppercase">Buscar</button>
                                 </div>
                             </div>
-                        </form>
+                        </form>                
                     </div>
-                </div>
-
-                <div class="navbar-end">
-                    {% for category in menu_categories %}
-                        <a href="{% url 'category' category.slug %}" class="navbar-item">{{ category.title }}</a>
-                    {% endfor %}
-
-                    <a href="{% url 'contact' %}" class="navbar-item">Contactos</a>
 
                     <div class="navbar-item">
                         <a href="{% url 'cart' %}" class="button is-dark">Cart{% if cart %} ({{ cart|length }}){% endif %}</a>
@@ -56,6 +56,8 @@
                 </div>
             </div>
         </nav>
+        
+        
         
         
         
