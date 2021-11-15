@@ -3,89 +3,217 @@
 <!DOCTYPE html>
 
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <title>{% block title %}{% endblock %}Interiorshop</title>
+    <title>{% block title %}{% endblock %}Interiorshop</title>
 
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
-        <link rel="stylesheet" href="{% static 'styles/main.css' %}">
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"> -->
+    <link rel="stylesheet" href="{% static 'styles/main.css' %}" />
+    <!--Icon-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-        <script src="{% static 'scripts/main.js' %}"></script>
-    </head>
+    <script src="{% static 'scripts/main.js' %}"></script>
+  </head>
+  <style>
+    body {
+      margin: 0;
+      font-family: Helvetica, sans-serif;
+      background-color: #f4f4f4;
+    }
+    /* header */
 
-    <body>
-        <nav class="navbar is-dark">
-            <div class="navbar-brand">
-                <a href="/" class="navbar-item"><strong>Kadju</strong></a>
-        
-                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="main-navbar">
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                </a>
-            </div>
-        
-            <div class="navbar-menu" id="main-navbar">
-                <div class="navbar-start">
-                    {% for category in menu_categories %}
-                        <a href="{% url 'category' category.slug %}" class="navbar-item">{{ category.title }}</a>
-                    {% endfor %}
+    .header {
+      background-color: #fff;
+      box-shadow: 1px 1px 4px 0 rgba(0, 0, 0, 0.1);
+      position: fixed;
+      width: 100%;
+      z-index: 3;
+    }
 
-                    <a href="{% url 'contact' %}" class="navbar-item">Contactos</a>
-                </div>
+    .header ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      overflow: hidden;
+      background-color: #fff;
+    }
 
-                <div class="navbar-end">
-                    <div class="navbar-item">
-                        <form method="get" action="{% url 'search' %}">
-                            <div class="field has-addons">
-                                <div class="control">
-                                    <input type="text" class="input" placeholder="buscar..." name="query">
-                                </div>
-                                <div class="control">
-                                    <button class="button is-dark is-uppercase">Buscar</button>
-                                </div>
-                            </div>
-                        </form>                
-                    </div>
+    .header li a {
+      display: block;
+      padding: 20px 20px;
+      border-right: 1px solid #f4f4f4;
+      text-decoration: none;
+    }
 
-                    <div class="navbar-item">
-                        <a href="{% url 'cart' %}" class="button is-dark">Cart{% if cart %} ({{ cart|length }}){% endif %}</a>
-                    </div>
-                </div>
-            </div>
-        </nav>
-        
-        
-        
-        
-        
-        
-        
-        <section class="section">
-            <div class="container">
-                {% block content %}
+    .header li a:hover,
+    .header .menu-btn:hover {
+      background-color: #f4f4f4;
+    }
 
-               
+    .header .logo {
+      display: block;
+      float: left;
+      font-size: 2em;
+      padding: 10px 20px;
+      text-decoration: none;
+    }
 
-                {% endblock %}
-            </div>
-        </section>
-        
-        <footer class="footer">
-            <h3 class="is-size-4 mb-4">Kadju Shop</h3>
-        
-            {% if request.user.is_authenticated %}
-                <a href="{% url 'vendor_admin' %}">Tela do Administrador</a>
-            {% else %}
-                <a href="{% url 'become_vendor' %}">Torne-se vendedor</a>
-            {% endif %}
+    /* menu */
 
-            <a href="{% url 'vendors' %}">Vendedores</a>
-        </footer>
+    .header .menu {
+      clear: both;
+      max-height: 0;
+      transition: max-height 0.2s ease-out;
+    }
 
-        {% block scripts %}
-        {% endblock %}
-    </body>
+    /* menu icon */
+
+    .header .menu-icon {
+      cursor: pointer;
+      display: inline-block;
+      float: right;
+      padding: 28px 20px;
+      position: relative;
+      user-select: none;
+    }
+
+    .header .menu-icon .navicon {
+      background: #333;
+      display: block;
+      height: 2px;
+      position: relative;
+      width: 18px;
+    }
+
+    .header .menu-icon .navicon:before,
+    .header .menu-icon .navicon:after {
+      background: #333;
+      content: "";
+      display: block;
+      height: 100%;
+      position: absolute;
+      transition: all 0.2s ease-out;
+      width: 100%;
+    }
+
+    .header .menu-icon .navicon:before {
+      top: 5px;
+    }
+
+    .header .menu-icon .navicon:after {
+      top: -5px;
+    }
+
+    /* menu btn */
+
+    .header .menu-btn {
+      display: none;
+    }
+
+    .header .menu-btn:checked ~ .menu {
+      max-height: 240px;
+    }
+
+    .header .menu-btn:checked ~ .menu-icon .navicon {
+      background: transparent;
+    }
+
+    .header .menu-btn:checked ~ .menu-icon .navicon:before {
+      transform: rotate(-45deg);
+    }
+
+    .header .menu-btn:checked ~ .menu-icon .navicon:after {
+      transform: rotate(45deg);
+    }
+
+    .header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:before,
+    .header .menu-btn:checked ~ .menu-icon:not(.steps) .navicon:after {
+      top: 0;
+    }
+
+    /* 48em = 768px */
+
+    @media (min-width: 48em) {
+      .header li {
+        float: left;
+      }
+      .header li a {
+        padding: 20px 30px;
+      }
+      .header .menu {
+        clear: none;
+        float: right;
+        max-height: none;
+      }
+      .header .menu-icon {
+        display: none;
+      }
+    }
+  </style>
+
+  <body>
+    <header class="header">
+      <a href="/" class="logo">Kadju</a>
+      <input class="menu-btn" type="checkbox" id="menu-btn" />
+      <label class="menu-icon" for="menu-btn"
+        ><span class="navicon"></span
+      ></label>
+      <ul class="menu">
+        {% for category in menu_categories %}
+        <li>
+          <a href="{% url 'category' category.slug %}" class="navbar-item"
+            >{{ category.title }}</a
+          >
+        </li>
+        {% endfor %}
+        <li><a href="{% url 'contact' %}" class="navbar-item">Contactos</a></li>
+
+        <li><a href="{% url 'cart' %}"><i class="fa fa-shopping-cart" style="font-size:36px"></i>{% if cart %} ({{ cart|length }}){% endif %}</a></li>
+      </ul>
+    </header>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    
+    
+
+    <!--Busca-->
+    <form method="get" action="{% url 'search' %}">
+        <div class="field has-addons">
+          <div class="control">
+            <input
+              type="text"
+              class="input"
+              placeholder="buscar..."
+              name="query"
+            />
+          </div>
+          <div class="control">
+            <button class="button is-dark is-uppercase">Buscar</button>
+          </div>
+        </div>
+      </form>
+
+    <section class="section">
+      <div class="container">{% block content %} {% endblock %}</div>
+    </section>
+
+    <footer class="footer">
+      <h3 class="is-size-4 mb-4">Kadju Shop</h3>
+
+      {% if request.user.is_authenticated %}
+      <a href="{% url 'vendor_admin' %}">Tela do Administrador</a>
+      {% else %}
+      <a href="{% url 'become_vendor' %}">Torne-se vendedor</a>
+      {% endif %}
+
+      <a href="{% url 'vendors' %}">Vendedores</a>
+    </footer>
+
+    {% block scripts %} {% endblock %}
+  </body>
 </html>
