@@ -12,7 +12,10 @@
     <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"> -->
     <link rel="stylesheet" href="{% static 'styles/main.css' %}" />
     <!--Icon-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
 
     <script src="{% static 'scripts/main.js' %}"></script>
   </head>
@@ -133,6 +136,11 @@
       top: 0;
     }
 
+
+
+
+
+   
     /* 48em = 768px */
 
     @media (min-width: 48em) {
@@ -170,36 +178,44 @@
         {% endfor %}
         <li><a href="{% url 'contact' %}" class="navbar-item">Contactos</a></li>
 
-        <li><a href="{% url 'cart' %}"><i class="fa fa-shopping-cart" style="font-size:36px"></i>{% if cart %} ({{ cart|length }}){% endif %}</a></li>
+        <li>
+          <a href="{% url 'cart' %}"><i class="fa fa-shopping-cart" style="font-size: 36px"></i>
+            {% if cart %} ({{ cart|length }}){% endif %}</a>
+        </li>
       </ul>
     </header>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    
-    
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
 
     <!--Busca-->
+
     <form method="get" action="{% url 'search' %}">
-        <div class="field has-addons">
-          <div class="control">
-            <input
-              type="text"
-              class="input"
-              placeholder="buscar..."
-              name="query"
-            />
-          </div>
-          <div class="control">
-            <button class="button is-dark is-uppercase">Buscar</button>
-          </div>
+      <div class="container">
+        <div class="search-box">
+          <input
+            type="text"
+            class="search-input"
+            placeholder="procurar.."
+            name="query"
+          />
+
+          <button class="search-button">
+            <i class="fas fa-search"></i>
+          </button>
         </div>
-      </form>
+      </div>
+    </form>
+
 
     <section class="section">
-      <div class="container">{% block content %} {% endblock %}</div>
+      <div class="container">
+        {% block content %} 
+          
+        {% endblock %}</div>
     </section>
 
     <footer class="footer">
