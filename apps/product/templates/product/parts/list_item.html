@@ -1,29 +1,68 @@
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<style>    
+.cards{
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+    padding: 20px;
+    grid-gap: 40px;
+    place-items: center center;
+    font-family: 'Poppins',sans-serif;
+}
+.card{
+    background-color: #1c1b29;
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.18);
+}
+.container{
+    position: relative;
+    clip-path: polygon(0 0,100% 0, 100% 85%, 0 100%);
+}
+img{
+    width: 100%;
+    display: block;
+    border-radius: 20px 20px 0 0;
+}
+.container:after{
+    content: "";
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-radius: 20px 20px 0 0;
+    opacity: 0.7;
+}
 
+.details{
+    padding: 20px 10px;
+}
+.details>h3{
+    color: #ffffff;
+    font-weight: 600;
+    font-size: 18px;
+    margin: 10px 0 15px 0;
+}
+.details>p{
+    color: #a0a0a0;
+    font-size: 15px;
+    line-height: 30px;
+    font-weight: 400;
+}
+</style>
 
-
-<div class="column is-3 product-list-item">
-    <div class="box">
-        <figure class="image is-4by3 mb-4">
-            <img src="{{ product.get_thumbnail }}">
-        </figure>
-
-        <h2 class="subtitle">{{ product.title }}</h2>
-
-        <h3 class="price is-size-6 mb-5"> {{ product.price }} MT</h3>
-
-        <h3 class="price is-size-6 mb-5"> Loja : {{ product.vendor }}</h3>
-
-        <hr>
-       
-
-        <a href="{% url 'product' product.category.slug product.slug %}"> <button type="button" class="btn btn-info">Ver</button></a>
+<div class="cards">
+    <div class="card card1">
+        <div class="container">
+            <img src="{{ product.get_thumbnail }}" alt="las vegas">
+        </div>
+        <div class="details">
+            <h3>{{ product.title }}</h3>
+            <h3>{{ product.price }} MT</h3>
+            <h3>{{ product.vendor }}</h3>
+            <a href="{% url 'product' product.category.slug product.slug %}"> <button type="button" class="btn btn-info">Ver</button></a>
+        </div>
     </div>
-
-
 </div>
 
 
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
